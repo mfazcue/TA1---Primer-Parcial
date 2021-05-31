@@ -1,7 +1,7 @@
 <?php
 
-    conectarBaseDatos();
-    guardarDatosEnBase($nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email)
+    $db = conectarBaseDatos();
+    guardarDatosEnBase($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email)
 
     function conectarBaseDatos()  {
 		
@@ -19,14 +19,25 @@
 
     }
 
-    function guardarDatosEnBase ($nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email) {
+    function guardarDatosEnBase ($db) {
 
         $nombre = $_POST['nombre'];
         $apellido = $_POST['apellido'];
         $telefono = $_POST['telefono'];
         $edad = $_POST['edad'];
         $fechaDeNacimiento = $_POST['fechaNacimiento']; 
-        $email = $_POST['email'];     
+        $email = $_POST['email'];     		
+        
+        mysqli_query($db,"INSERT INTO formulario (nombre, apellido, telefono, edad, fechaDeNacimiento, email) VALUES 
+        ('$nombre', '$apellido', '$telefono', '$edad', '$fechaDeNacimiento', '$email')");
+
+        $id_insert = mysqli_insert_id ($db);
+
+        if ($id_insert > 0) {
+          echo "El formulario se guardó correctamente";
+        } else {
+          echo "Hubo un error al guardar los datos del formulario"
+        }    
     
     }
 
