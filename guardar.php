@@ -1,23 +1,27 @@
 <?php
 
-    $db = conectarBaseDatos();
+  require_once 'validaciones.php';  
+
+  $db = conectarBaseDatos();
+
+
     guardarDatosEnBase($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email)
 
-    function conectarBaseDatos()  {
+  function conectarBaseDatos()  {
 		
-		$host = "localhost";
-		$usr = "mfazcue";
-		$pas = "1234";
-		$dbase = "parcial";
-		$db = new mysqli($host, $usr, $pas, $dbase);
-		 
-		if (mysqli_connect_error()) {
-			die('Error de conexión ('.mysqli_connect_errno().') '.mysqli_connect_error());
-		}
+    $host = "localhost";
+    $usr = "mfazcue";
+    $pas = "1234";
+    $dbase = "parcial";
+    $db = new mysqli($host, $usr, $pas, $dbase);
 
-		return $db;	
-
+    if (mysqli_connect_error()) {
+      die('Error de conexión ('.mysqli_connect_errno().') '.mysqli_connect_error());
     }
+
+    return $db;	
+
+   }
 
     function guardarDatosEnBase ($db) {
 
