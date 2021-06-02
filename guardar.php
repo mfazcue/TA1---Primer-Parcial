@@ -15,14 +15,14 @@
       $retorno = guardarDatosEnBase($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email);
 
       if ($retorno == 1) {
-        echo "Todo est&aacute; en orden";
+        echo "Persona agregada correctamente";
       } else {
         header("HTTP/1.1 500 Internal server error");
         echo "Hubo un error en la base de datos";  
       }
   } else {
       header("HTTP/1.1 500 Internal server error");
-      echo "Faltaron datos, nombre y apellido eran iguales o la edad no era un valor num&eacute;rico";
+      echo "Hubo un problema al procesar la solicitud";
   }
 
   function conectarBaseDatos()  {
