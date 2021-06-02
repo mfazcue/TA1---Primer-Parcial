@@ -4,8 +4,26 @@
 
   $db = conectarBaseDatos();
 
+  $nombre = $_POST['nombre'];
+  $apellido = $_POST['apellido'];
+  $telefono = $_POST['telefono'];
+  $edad = $_POST['edad'];
+  $fechaDeNacimiento = $_POST['fechaNacimiento']; 
+  $email = $_POST['email'];     		
 
-    guardarDatosEnBase($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email)
+  if (controlarDatos()) {
+      $retorno = guardarDatosEnBase($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email);
+
+      if ($retorno == 1) {
+        echo "Todo est&aacute; en orden";
+      } else {
+        header("HTTP/1.1 500 Internal server error");
+        echo "Hubo un error en la base de datos";  
+      }
+  } else {
+      header("HTTP/1.1 500 Internal server error");
+      echo "Faltaron datos, nombre y apellido eran iguales o la edad no era un valor num&eacute;rico";
+  }
 
   function conectarBaseDatos()  {
 		
@@ -23,26 +41,20 @@
 
    }
 
-    function guardarDatosEnBase ($db) {
+    function guardarDatosEnBase ($db, $nombre, $apellido, $telefono, $edad, $fechaDeNacimiento, $email) {
 
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $telefono = $_POST['telefono'];
-        $edad = $_POST['edad'];
-        $fechaDeNacimiento = $_POST['fechaNacimiento']; 
-        $email = $_POST['email'];     		
-        
         mysqli_query($db,"INSERT INTO formulario (nombre, apellido, telefono, edad, fechaDeNacimiento, email) VALUES 
         ('$nombre', '$apellido', '$telefono', '$edad', '$fechaDeNacimiento', '$email')");
 
         $id_insert = mysqli_insert_id ($db);
 
         if ($id_insert > 0) {
-          echo "El formulario se guardó correctamente";
+            $retorno = 1;    
         } else {
-          echo "Hubo un error al guardar los datos del formulario"
+            $retorno = 0;
         }    
-    
+
+        return $retorno;
     }
 
 ?>
